@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biểu mẫu Cung cấp Thông tin - ThinkEdge</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #2a4759;
+            --secondary-color: #f0f4f7;
+            --border-color: #dce4e9;
+            --text-color: #333;
+            --light-text-color: #666;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f9fafb;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        /* --- HEADER & TITLES --- */
+        h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--light-text-color);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 22px;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        label .note {
+            font-weight: 400;
+            color: var(--light-text-color);
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="time"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Manrope', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="time"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(42, 71, 89, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .small-note {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        /* --- DYNAMIC ADD/REMOVE BUTTONS --- */
+        .add-btn, .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+        .add-btn { color: #28a745; }
+        .add-btn:hover { color: #218838; }
+        .delete-btn { color: #dc3545; }
+        .delete-btn:hover { color: #c82333; }
+        
+        /* --- SECTION I: OPERATING HOURS --- */
+        .day-row {
+            display: flex;
+            flex-direction: column;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .day-label {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .day-row .add-time-btn {
+            background-color: #28a745;
+            color: white;
+            /* UPDATED: Reduced button and icon size */
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .time-slots-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .time-slot {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .time-slot span {
+            color: var(--light-text-color);
+        }
+
+        /* --- SECTION II: FAQ --- */
+        .faq-table {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .faq-header, .faq-row {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr 60px;
+            gap: 10px;
+            padding: 10px;
+            align-items: start;
+        }
+        .faq-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+        }
+        .faq-row {
+            border-top: 1px solid var(--border-color);
+        }
+        .faq-row textarea {
+            min-height: 50px;
+        }
+        .faq-row .add-delete-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* --- SECTION IV: KEYWORDS (TAG INPUT SYSTEM) --- */
+        .keyword-rule-block {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .keyword-rule-block .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .keyword-inputs-container {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .tag-input-wrapper {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            cursor: text;
+        }
+        .tag-input-wrapper:focus-within {
+             border-color: var(--primary-color);
+             box-shadow: 0 0 0 3px rgba(42, 71, 89, 0.1);
+        }
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .remove-tag-btn {
+            margin-left: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .tag-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 15px;
+            min-width: 150px;
+            font-family: 'Manrope', sans-serif;
+        }
+        #add-keyword-rule-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: 1px dashed var(--border-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* --- SUBMIT BUTTON --- */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 3rem;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #1f3544;
+        }
+
+        /*
+        ======================================================
+        === RESPONSIVE STYLES FOR MOBILE ===
+        ======================================================
+        */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            .form-container {
+                padding: 1.5rem 1rem;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            h1 { font-size: 24px; }
+            h2 { font-size: 20px; }
+            
+            /* --- Responsive FAQ Table --- */
+            .faq-header {
+                display: none; 
+            }
+            .faq-row {
+                grid-template-columns: 1fr; 
+                gap: 15px;
+                padding-bottom: 20px;
+            }
+            .faq-row div:nth-child(1)::before {
+                content: "Chi tiết câu hỏi:";
+                display: block;
+                font-weight: 700;
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+             .faq-row div:nth-child(2)::before {
+                content: "Chi tiết câu trả lời:";
+                display: block;
+                font-weight: 700;
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+             .faq-row div:nth-child(3)::before {
+                content: "Link hình ảnh đính kèm (Nếu có):";
+                display: block;
+                font-weight: 700;
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+            .faq-row .add-delete-controls {
+                justify-content: flex-start;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <form action="https://formspree.io/f/mnnzqgdw" method="POST" enctype="multipart/form-data">
+            
+            <h1>Biểu mẫu Cung cấp Thông tin</h1>
+            <p class="subtitle">
+                Bạn vui lòng cung cấp thông tin chi tiết về doanh nghiệp trong biểu mẫu này để ThinkEdge có thể thiết lập Chatbot một cách chính xác và hiệu quả. Trong quá trình thực hiện, nếu có bất kỳ thắc mắc nào, hãy xem lại bài viết hướng dẫn hoặc liên hệ với ThinkEdge để nhận được sự hỗ trợ tốt nhất.
+            </p>
+
+            <section id="thiet-lap-ban-dau">
+                <h2>I. Thiết lập ban đầu</h2>
+                <div class="form-group">
+                    <label for="facebook-name">
+                        Tên Facebook của bạn 
+                        <span class="note">(Vui lòng ghi đúng tên Facebook mà bạn đã mua dịch vụ Chatbot bên ThinkEdge để ThinkEdge dễ dàng hỗ trợ bạn nhé)</span>
+                    </label>
+                    <input type="text" id="facebook-name" name="Tên Facebook" required>
+                </div>
+                <div class="form-group">
+                    <label for="welcome-message">Lời chào mừng (Welcome Message)</label>
+                    <input type="text" id="welcome-message" name="Lời chào mừng" required>
+                </div>
+                <div class="form-group">
+                    <label>Thiết lập giờ hoạt động cho Chatbot</label>
+                    <div class="small-note">Mẹo: Bấm vào biểu tượng đồng hồ <i class="far fa-clock"></i> trên ô nhập để chọn thời gian nhanh.</div>
+                    <div id="operating-hours-container">
+                        </div>
+                </div>
+            </section>
+
+            <section id="cau-hoi-thuong-gap">
+                <h2>II. Câu hỏi thường gặp</h2>
+                <div class="faq-table">
+                    <div class="faq-header">
+                        <div>Chi tiết câu hỏi</div>
+                        <div>Chi tiết câu trả lời</div>
+                        <div>Link hình ảnh đính kèm (Nếu có)</div>
+                        <div></div>
+                    </div>
+                    <div id="faq-container">
+                        </div>
+                </div>
+                 <button type="button" class="add-btn" id="add-faq-row-btn" title="Thêm câu hỏi"><i class="fas fa-plus-circle"></i> Thêm câu hỏi</button>
+            </section>
+            
+            <section id="tin-nhan-mo-dau">
+                <h2>III. Tin nhắn mở đầu</h2>
+                <div class="form-group">
+                    <label for="opening-message">Nội dung tin nhắn</label>
+                    <textarea id="opening-message" name="Tin nhắn mở đầu"></textarea>
+                </div>
+            </section>
+
+            <section id="tu-khoa">
+                <h2>IV. Từ khóa</h2>
+                <div id="keyword-rules-container">
+                    </div>
+                <button type="button" id="add-keyword-rule-btn"><i class="fas fa-plus"></i> Thêm loại từ khóa</button>
+            </section>
+
+            <section id="kich-ban-ai">
+                <h2>V. Kịch bản AI</h2>
+                <div class="form-group">
+                    <label for="ai-instruction">V.1 Instruction</label>
+                    <textarea id="ai-instruction" name="AI Instruction"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="ai-knowledge">V.2 Knowledge</label>
+                    <textarea id="ai-knowledge" name="AI Knowledge"></textarea>
+                </div>
+            </section>
+
+            <button type="submit" class="submit-btn">Gửi thông tin</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // ======================================================
+            // I. LOGIC CHO GIỜ HOẠT ĐỘNG (REBUILT)
+            // ======================================================
+            const operatingHoursContainer = document.getElementById('operating-hours-container');
+            const daysOfWeek = ['Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy', 'Chủ nhật'];
+
+            daysOfWeek.forEach(day => {
+                const dayRow = document.createElement('div');
+                dayRow.className = 'day-row';
+                
+                dayRow.innerHTML = `
+                    <div class="day-header">
+                        <div class="day-label">${day}</div>
+                        <button type="button" class="add-btn add-time-btn" title="Thêm khung giờ"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="time-slots-container" data-day="${day}"></div>
+                `;
+                operatingHoursContainer.appendChild(dayRow);
+            });
+            
+            operatingHoursContainer.addEventListener('click', function(e) {
+                if (e.target.closest('.add-time-btn')) {
+                    const button = e.target.closest('.add-time-btn');
+                    const container = button.closest('.day-row').querySelector('.time-slots-container');
+                    const day = container.dataset.day;
+                    
+                    const timeSlot = document.createElement('div');
+                    timeSlot.className = 'time-slot';
+                    timeSlot.innerHTML = `
+                        <input type="time" name="gio_hoat_dong[${day}][][start]" required>
+                        <span>→</span>
+                        <input type="time" name="gio_hoat_dong[${day}][][end]" required>
+                        <button type="button" class="delete-btn" title="Xóa khung giờ"><i class="fas fa-trash-alt"></i></button>
+                    `;
+                    container.appendChild(timeSlot);
+                }
+
+                if (e.target.closest('.delete-btn')) {
+                    const button = e.target.closest('.delete-btn');
+                    button.closest('.time-slot').remove();
+                }
+            });
+
+            // ======================================================
+            // II. LOGIC CHO CÂU HỎI THƯỜNG GẶP (FAQ)
+            // ======================================================
+            const faqContainer = document.getElementById('faq-container');
+            const addFaqRowBtn = document.getElementById('add-faq-row-btn');
+            let faqCounter = 0;
+
+            function addFaqRow() {
+                faqCounter++;
+                const faqRow = document.createElement('div');
+                faqRow.className = 'faq-row';
+                faqRow.innerHTML = `
+                    <div><textarea name="faq[${faqCounter}][cau_hoi]" placeholder="Nhập câu hỏi..."></textarea></div>
+                    <div><textarea name="faq[${faqCounter}][cau_tra_loi]" placeholder="Nhập câu trả lời..."></textarea></div>
+                    <div>
+                        <textarea name="faq[${faqCounter}][link_hinh_anh]" placeholder="Dán các link ảnh vào đây..."></textarea>
+                        <div class="small-note">Khách có thể thêm nhiều ảnh bằng cách enter để xuống dòng cho mỗi link ảnh.</div>
+                    </div>
+                    <div class="add-delete-controls">
+                        <button type="button" class="delete-btn delete-faq-row-btn" title="Xóa hàng"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                `;
+                faqContainer.appendChild(faqRow);
+            }
+            
+            addFaqRowBtn.addEventListener('click', addFaqRow);
+            faqContainer.addEventListener('click', function(e) {
+                if (e.target.closest('.delete-faq-row-btn')) {
+                    e.target.closest('.faq-row').remove();
+                }
+            });
+            addFaqRow(); // Add the first empty row initially
+
+            // ======================================================
+            // IV. LOGIC CHO TỪ KHÓA (TAG INPUT)
+            // ======================================================
+            const keywordRulesContainer = document.getElementById('keyword-rules-container');
+            const addKeywordRuleBtn = document.getElementById('add-keyword-rule-btn');
+            let keywordRuleCounter = 0;
+
+            function updateKeywordRuleSummary(ruleBlock) {
+                const ruleIndex = ruleBlock.dataset.ruleIndex;
+                const summaryInput = ruleBlock.querySelector('.keyword-summary-input');
+                if (!summaryInput) return;
+                const typeSelect = ruleBlock.querySelector('.keyword-type-select');
+                const selectedOption = typeSelect.options[typeSelect.selectedIndex];
+                const typeText = selectedOption.text;
+                let summaryParts = [`Loại: ${typeText}`];
+                const tagInputs = ruleBlock.querySelectorAll('.tag-input-wrapper');
+                tagInputs.forEach(wrapper => {
+                    const label = wrapper.previousElementSibling;
+                    const hiddenInput = wrapper.nextElementSibling.nextElementSibling;
+                    if (label && hiddenInput && hiddenInput.value) {
+                         summaryParts.push(`${label.textContent}: ${hiddenInput.value}`);
+                    }
+                });
+                summaryInput.name = `Quy tắc từ khóa ${ruleIndex}`;
+                summaryInput.value = summaryParts.join(' | ');
+            }
+
+            function createTagInput(labelText, hiddenInputName) {
+                const wrapper = document.createElement('div');
+                const note = '<div class="small-note">Nhập một từ khóa rồi nhấn Enter.</div>';
+                wrapper.innerHTML = `
+                    <label>${labelText}</label>
+                    <div class="tag-input-wrapper">
+                        <input type="text" class="tag-input" placeholder="Nhập từ khóa...">
+                    </div>
+                    ${note}
+                    <input type="hidden" name="${hiddenInputName}">
+                `;
+                return wrapper;
+            }
+            
+            function setupTagInput(wrapper) {
+                const tagInputWrapper = wrapper.querySelector('.tag-input-wrapper');
+                const tagInput = wrapper.querySelector('.tag-input');
+                const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+                let tags = [];
+                function updateHiddenInputAndSummary() {
+                    hiddenInput.value = tags.join(';');
+                    const ruleBlock = wrapper.closest('.keyword-rule-block');
+                    if (ruleBlock) {
+                        updateKeywordRuleSummary(ruleBlock);
+                    }
+                }
+                tagInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const tagText = tagInput.value.trim();
+                        if (tagText.length > 0 && !tags.includes(tagText)) {
+                            tags.push(tagText);
+                            const tagItem = document.createElement('span');
+                            tagItem.className = 'tag-item';
+                            tagItem.innerHTML = `${tagText} <span class="remove-tag-btn" data-text="${tagText}">&times;</span>`;
+                            tagInputWrapper.insertBefore(tagItem, tagInput);
+                            tagInput.value = '';
+                            updateHiddenInputAndSummary();
+                        }
+                    }
+                });
+                tagInputWrapper.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('remove-tag-btn')) {
+                        const textToRemove = e.target.dataset.text;
+                        tags = tags.filter(t => t !== textToRemove);
+                        e.target.parentElement.remove();
+                        updateHiddenInputAndSummary();
+                    } else if (e.target === tagInputWrapper) {
+                        tagInput.focus();
+                    }
+                });
+            }
+
+            addKeywordRuleBtn.addEventListener('click', function() {
+                keywordRuleCounter++;
+                const ruleBlock = document.createElement('div');
+                ruleBlock.className = 'keyword-rule-block';
+                ruleBlock.dataset.ruleIndex = keywordRuleCounter;
+                ruleBlock.innerHTML = `
+                    <button type="button" class="delete-btn delete-keyword-rule-btn" title="Xóa loại từ khóa"><i class="fas fa-trash-alt"></i></button>
+                    <div class="form-group">
+                        <label>Loại từ khóa</label>
+                        <select class="keyword-type-select" name="keyword[${keywordRuleCounter}][type]">
+                            <option value="">-- Chọn một loại --</option>
+                            <option value="contains">Nội dung có chứa</option>
+                            <option value="contains_and_not_contains">Nội dung có chứa và không chứa</option>
+                            <option value="contains_A_not_B_contains_C">Nội dung có chứa (A) và không chứa (B) và có chứa (C)</option>
+                            <option value="contains_A_B_C">Nội dung có chứa (A) và có chứa (B) và có chứa (C)</option>
+                            <option value="contains_all">Nội dung có chứa tất cả</option>
+                            <option value="contains_all_and_not_contains">Nội dung có chứa tất cả và không chứa</option>
+                        </select>
+                    </div>
+                    <div class="keyword-inputs-container"></div>
+                    <input type="hidden" class="keyword-summary-input">
+                `;
+                keywordRulesContainer.appendChild(ruleBlock);
+            });
+            
+            keywordRulesContainer.addEventListener('change', function(e) {
+                if (e.target.classList.contains('keyword-type-select')) {
+                    const select = e.target;
+                    const ruleBlock = select.closest('.keyword-rule-block');
+                    const container = ruleBlock.querySelector('.keyword-inputs-container');
+                    container.innerHTML = '';
+                    const type = select.value;
+                    const ruleIndex = ruleBlock.dataset.ruleIndex;
+                    let inputsToAdd = [];
+                    switch(type) {
+                        case 'contains':
+                            inputsToAdd.push(createTagInput('Có chứa', `keyword[${ruleIndex}][contains]`));
+                            break;
+                        case 'contains_and_not_contains':
+                            inputsToAdd.push(createTagInput('Có chứa', `keyword[${ruleIndex}][contains]`));
+                            inputsToAdd.push(createTagInput('Không chứa', `keyword[${ruleIndex}][not_contains]`));
+                            break;
+                        case 'contains_A_not_B_contains_C':
+                            inputsToAdd.push(createTagInput('Có chứa (A)', `keyword[${ruleIndex}][contains_A]`));
+                            inputsToAdd.push(createTagInput('Không chứa (B)', `keyword[${ruleIndex}][not_contains_B]`));
+                            inputsToAdd.push(createTagInput('Có chứa (C)', `keyword[${ruleIndex}][contains_C]`));
+                            break;
+                        case 'contains_A_B_C':
+                            inputsToAdd.push(createTagInput('Có chứa (A)', `keyword[${ruleIndex}][contains_A]`));
+                            inputsToAdd.push(createTagInput('Có chứa (B)', `keyword[${ruleIndex}][contains_B]`));
+                            inputsToAdd.push(createTagInput('Có chứa (C)', `keyword[${ruleIndex}][contains_C]`));
+                            break;
+                        case 'contains_all':
+                            inputsToAdd.push(createTagInput('Có chứa tất cả', `keyword[${ruleIndex}][contains_all]`));
+                            break;
+                        case 'contains_all_and_not_contains':
+                            inputsToAdd.push(createTagInput('Có chứa tất cả', `keyword[${ruleIndex}][contains_all]`));
+                            inputsToAdd.push(createTagInput('Không chứa', `keyword[${ruleIndex}][not_contains]`));
+                            break;
+                    }
+                    inputsToAdd.forEach(inputElement => {
+                        container.appendChild(inputElement);
+                        setupTagInput(inputElement);
+                    });
+                    updateKeywordRuleSummary(ruleBlock);
+                }
+            });
+            keywordRulesContainer.addEventListener('click', function(e) {
+                if (e.target.closest('.delete-keyword-rule-btn')) {
+                    e.target.closest('.keyword-rule-block').remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
